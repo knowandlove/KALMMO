@@ -21,7 +21,7 @@ class GameScene extends Phaser.Scene {
         }
     
         // Debug: log tile info when clicking
-        
+
     this.input.on('pointerdown', (pointer) => {
         const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
         const tileX = Math.floor(worldPoint.x / 16);
@@ -79,7 +79,28 @@ class GameScene extends Phaser.Scene {
         if (this.obstaclesLayer) {
             this.physics.add.collider(this.player, this.obstaclesLayer); //
         }
+
+         // DEBUG: Make player more visible and log its position
+    this.player.setTint(0xff0000); // Make player red so we can see it
+    this.player.setDepth(100); // Put it on top of everything
+    console.log('Player created at:', this.player.x, this.player.y);
+    console.log('Player grid position:', this.player.gridX, this.player.gridY);
     }
+
+    create() {
+    this.createWorld();
+    this.createPlayer();
+    
+    // DEBUG: Check if textures and frames exist
+    console.log('Meerkat texture exists:', this.textures.exists('meerkat'));
+    if (this.textures.exists('meerkat')) {
+        const texture = this.textures.get('meerkat');
+        console.log('Meerkat frames:', Object.keys(texture.frames));
+    }
+    
+    this.createNPCs();
+    // ... rest of create method
+}
 
     createNPCs() {
         // Example NPC 1 (adjust data and position as needed)
@@ -297,18 +318,25 @@ interact() {
         }
     }
 
-    update(time, delta) {
-        if (this.player && this.debugText) { // Ensure player and debugText exist
-            this.debugText.setText([ //
-                `Animal: ${this.player.animalType}`, //
-                `Level: ${this.player.level}`, //
-                `EXP: ${this.player.experience}/${this.player.experienceToNext}`, //
-                `Pos: ${this.player.gridX}, ${this.player.gridY}`, //
-                `State: ${this.player.state}`, //
-                `[Ctrl+S] Save | [Ctrl+L] Load` //
-            ]);
-        }
+   update(time, delta) {
+    // IMPORTANT: Call player update to handle input
+    if (this.player && this.player.update) {
+        this.player.update();
     }
+
+    // Update debug text
+    if (this.player && this.debugText) {
+        this.debugText.setText([
+            `Animal: ${this.player.animalType}`,
+            `Level: ${this.player.level}`,
+            `EXP: ${this.player.experience}/${this.player.experienceToNext}`,
+            `Pos: ${this.player.gridX}, ${this.player.gridY}`,
+            `State: ${this.player.state}`,
+            `Controls: Arrow Keys/WASD to move, SPACE to interact`,
+            `[Ctrl+S] Save | [Ctrl+L] Load`
+        ]);
+    }
+}
     
     saveGame() {
         const gameData = this.getGameData(); //

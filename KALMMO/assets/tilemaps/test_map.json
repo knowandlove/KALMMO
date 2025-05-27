@@ -112,19 +112,19 @@
                 }],
          "tilewidth":16
         }, 
-        {
-         "columns":8,
-         "firstgid":121,
-         "image":"..\/basictiles.png",
-         "imageheight":240,
-         "imagewidth":128,
-         "margin":0,
-         "name":"basictiles",
-         "spacing":0,
-         "tilecount":120,
-         "tileheight":16,
-         "tilewidth":16
-        }],
+   {
+ "columns":8,
+ "firstgid":121,
+ "image":"../tilesets/basictiles.png",
+ "imageheight":240,
+ "imagewidth":128,
+ "margin":0,
+ "name":"basictiles",
+ "spacing":0,
+ "tilecount":120,
+ "tileheight":16,
+ "tilewidth":16
+}],
  "tilewidth":16,
  "type":"map",
  "version":"1.10",
